@@ -4,23 +4,11 @@ from random import choices
 from django.db import models
 from datetime import datetime
 
+from .resources import POSITIONS
 
-director = 'DI'
-admin = 'AD'
-cook = 'CO'
-cashier = 'CA'
-cleaner = 'CL'
-
-POSITIONS = [
-    (director, "Директор"),
-    (admin, "Администратор"),
-    (cook, "Повар"),
-    (cashier, "Кассир"),
-    (cleaner, "Уборщик")
-]
 class Staff(models.Model):
     full_name = models.CharField(max_length=255)
-    position = models.CharField(max_length=2, choices=POSITIONS, default=cashier)
+    position = models.CharField(max_length=2, choices=POSITIONS, default='DI')
     labour_contract = models.IntegerField()
 
 class Product(models.Model):
