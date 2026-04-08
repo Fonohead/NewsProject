@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3529c541-69f2-4b19-b488-07c58fcf27e0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    <list default="true" id="3d03e7a1-79e6-49a1-be2e-c36f49c54036" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/asgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/wsgi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/NewsPaper/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewsPaper/news/views.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +21,7 @@
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 4
 }]]></component>
-  <component name="ProjectId" id="3C4gmHjHfarFM5EB98WXvX6FEQ5" />
+  <component name="ProjectId" id="3C5NC7oC1kwIwVJnPT8fPBGHeKn" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -86,11 +69,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3529c541-69f2-4b19-b488-07c58fcf27e0" name="Changes" comment="" />
-      <created>1775650413427</created>
+      <changelist id="3d03e7a1-79e6-49a1-be2e-c36f49c54036" name="Changes" comment="" />
+      <created>1775671340663</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1775650413427</updated>
+      <updated>1775671340663</updated>
     </task>
     <servers />
   </component>

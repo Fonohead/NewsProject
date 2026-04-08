@@ -1,0 +1,85 @@
+1. Импортируем.
+
+from django.contrib.auth.models import User
+from accounts.models import Author
+from news.models import Category, Post, Comment, PostCategory
+
+2. Создаём пользователей.
+
+u1 = User.objects.create_user('eddy')
+u2 = User.objects.create_user('alisa')
+
+Создаём авторов.
+
+a1 = Author.objects.create(user=u1)
+a2 = Author.objects.create(user=u2)
+
+4. Категории.
+
+cat_politics = Category.objects.create(name='Политика')
+cat_sport = Category.objects.create(name='Спорт')
+cat_culture = Category.objects.create(name='Культура')
+cat_humor = Category.objects.create(name='Юмор')
+
+5. Посты.
+
+post1 = Post.objects.create(author=a1, post_type=Post.ARTICLE, title='Новый рекорд.', text='На городской спартакиаде установлен новый рекорд.' * 10)
+
+post2 = Post.objects.create(author=a1, post_type=Post.ARTICLE, title='Большой концерт.', text='В филармонии состоится большой концерт.' * 10)
+
+post3 = Post.objects.create(author=a2, post_type=Post.NEWS, title='Прибыла делегация.', text='К нам прибыла иностранная делегация.' * 10)
+
+6. Присваиваем категории.
+
+PostCategory.objects.create(post=post1, category=cat_sport)
+PostCategory.objects.create(post=post2, category=cat_culture)
+PostCategory.objects.create(post=post2, category=cat_humor)
+PostCategory.objects.create(post=post3, category=cat_politics)
+
+7. Комментарии.
+
+c1 = Comment.objects.create(post=post1, user=u1, text='Так держать!')
+c2 = Comment.objects.create(post=post1, user=u2, text='Это было эпично!')
+c3 = Comment.objects.create(post=post2, user=u2, text='Все туда!')
+c4 = Comment.objects.create(post=post3, user=u1, text='В центре пробки!')
+
+8. Лайки/дислайки.
+
+Для постов.
+
+post1.like()
+post1.like()
+post1.like()
+post1.like()
+post2.like()
+post2.like()
+post3.dislike()
+post3.like()
+post3.like()
+
+Для комментариев.
+
+c1.like()
+c2.like()
+c3.dislike()
+c4.like()
+
+9. Обновление рейтингов авторов.
+
+a1.update_rating()
+a2.update_rating()
+
+10. Выводим лучшего автора.
+
+best_author = Author.objects.order_by('-rating').first()
+print(best_author.user.username, best_author.rating)
+
+11. Выводим лучшую статью.
+
+best_post = Post.objects.order_by('-rating').first()
+print(best_post.created_at, best_post.author.user.username, best_post.rating, best_post.title, best_post.preview())
+
+12. Выводим все комментарии к лучшей статье.
+
+for c in best_post.comment_set.all():
+print(c.created, c.user.username, c.rating, c.text)
