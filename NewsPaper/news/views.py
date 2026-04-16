@@ -3,6 +3,7 @@ from .models import Post
 
 class PostListView(ListView):
     model = Post
+    ordering = '-created_at'
     template_name = 'flatpages/posts.html'
     context_object_name = 'posts'
 

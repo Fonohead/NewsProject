@@ -1,10 +1,39 @@
 {% extends 'flatpages/default.html' %}
 
-{% block title %}
-Fresh news
-{% endblock title %}
-
 {% block content %}
-<h1>Свежие новости</h1>
-{{ posts }}
-{% endblock %}
+    <hr>
+    <div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
+        ВСЕ НОВОСТИ
+    </div>
+    <hr>
+    <div style="text-align: right; color: green; font-size: 18px; font-weight: bold; font-family: courier;">
+        Всего новостей: {{ posts|length }}
+    </div>
+    <br>
+    {% if posts %}
+    <div style="display:flex; justify-content:center;">
+        <table style="margin:0 auto; text-align: left;">
+            <tr>
+                <td><div style="text-align: left; color: brown; font-weight: bold;">ЗАГОЛОВОК</div></td>
+                <td><div style="text-align: left; color: brown; font-weight: bold;">ДАТА</div></td>
+                <td><div style="text-align: left; color: brown; font-weight: bold;">СТАТЬЯ</div></td>
+
+           </tr>
+
+           {% for post in posts %}
+           <tr>
+               <td><div style="text-align: left;
+               color: grey; font-family: tahoma; padding: 8px;">{{ post.title }}</div></td>
+               <td><div style="text-align: left;
+               color: grey; font-family: tahoma; padding: 8px;">{{ post.created_at|date:"d M Y" }}</div></td>
+               <td><div style="text-align: left;
+               color: grey; font-family: tahoma; padding: 8px;">{{ post.text|truncatechars:50 }}</div></td>
+           </tr>
+           {% endfor %}
+
+       </table>
+    </div>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
