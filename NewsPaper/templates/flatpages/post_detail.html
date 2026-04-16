@@ -6,12 +6,11 @@
         {{ post.title }}
     </div>
 <hr>
-    <div style="text-align: right; color: green; font-size: 18px; font-weight: bold; font-family: courier;">
-        Опубликовано: {{ post.created_at|date:"d M Y" }}
-    </div>
+    <div style="text-align: left;
+    font-size: 20px; color: brown; font-weight: bold;">{{ post.created_at|date:"d M Y" }}</div>
 <br>
     <div style="text-align: left;
-               color: grey; font-family: tahoma; padding: 100px;">
+               color: grey; font-family: tahoma; padding: 20px;">
         {{ post.text }}
     </div>
 
