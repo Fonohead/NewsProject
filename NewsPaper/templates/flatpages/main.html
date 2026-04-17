@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block content %}
+<div style="text-align: right; color: brown; font-size: 14px; font-weight: bold; font-family: tahoma;">
+    СЕГОДНЯ {% current_time %}
+</div>
+<hr>
+<div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
+        ГЛАВНАЯ
+</div>
+<hr>
+
+{% endblock content %}

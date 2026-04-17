@@ -1,17 +1,23 @@
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+{% load custom_tags %}
+
 {% block content %}
+<div style="text-align: right; color: brown; font-size: 14px; font-weight: bold; font-family: tahoma;">
+    СЕГОДНЯ {% current_time %}
+</div>
 <hr>
     <div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
-        {{ post.title }}
+        {{ post.title|censor }}
     </div>
 <hr>
     <div style="text-align: left;
-    font-size: 20px; color: brown; font-weight: bold;">{{ post.created_at|date:"d M Y" }}</div>
+    font-size: 20px; color: brown; font-weight: bold;">{{ post.created_at|date:"d. m. Y." }}</div>
 <br>
     <div style="text-align: left;
                color: grey; font-family: tahoma; padding: 20px;">
-        {{ post.text }}
+        {{ post.text|censor }}
     </div>
 
 {% endblock %}

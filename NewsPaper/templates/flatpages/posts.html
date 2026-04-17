@@ -1,30 +1,37 @@
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+{% load custom_tags %}
+
 {% block content %}
-    <hr>
-    <div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
+<div style="text-align: right; color: brown; font-size: 14px; font-weight: bold; font-family: tahoma;">
+    СЕГОДНЯ {% current_time %}
+</div>
+<hr>
+<div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
         НОВОСТИ
-    </div>
-    <hr>
-    <div style="text-align: right; color: green; font-size: 12px; font-weight: normal; font-family: tahoma;">
+</div>
+<hr>
+<div style="text-align: right; color: green; font-size: 12px; font-weight: normal; font-family: tahoma;">
         Количество публикаций: {{ posts|length }}
-    </div>
-    <br>
-    {% if posts %}
-    <ol style="list-style-type: none; padding: 0; margin: 0;">
-        {% for post in posts %}
-            <li style="margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #eeeeee;">
+</div>
+<br>
+{% if posts %}
+<ol style="list-style-type: none; padding: 0; margin: 0;">
+    {% for post in posts %}
+        <li style="margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #eeeeee;">
             <div style="text-align: left; color: grey; font-family: tahoma; font-size: 16px;">
-                <div style="text-align: left; font-size: 16px;
-                color: brown; font-weight: bold;">{{ post.title }}</div>
-                <div style="text-align: left; font-size: 20px;
-                color: grey; font-weight: bold;">{{ post.created_at|date:"d M Y" }}</div>
-                <div style="text-align: left; font-size: 14px;">{{ post.text|truncatechars:300 }}</div>
+                <div style="text-align: left; font-size: 16px;color: brown; font-weight: bold;">
+                    {{ post.title|censor }}</div>
+                <div style="text-align: left; font-size: 20px;color: grey; font-weight: bold;">
+                    {{ post.created_at|date:"d. m. Y." }}</div>
+                <div style="text-align: left; font-size: 14px;">
+                    {{ post.text|censor|truncatechars:300 }}</div>
             </div>
-            </li>
-        {% endfor %}
-    </ol>
-   {% else %}
-       <h2>Новостей нет!</h2>
-   {% endif %}
+        </li>
+    {% endfor %}
+</ol>
+{% else %}
+<h2>Новостей нет!</h2>
+{% endif %}
 {% endblock content %}
