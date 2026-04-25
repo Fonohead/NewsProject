@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<br>
+<div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
+        ПУБЛИКАЦИЯ СТАТЬИ
+</div>
+<hr>
+<form action="" method="post" style="text-align: left;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+{% endblock content %}

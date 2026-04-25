@@ -23,6 +23,9 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def like(self):
         self.rating += 1
         self.save()

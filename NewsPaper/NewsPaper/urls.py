@@ -16,10 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from news.views import home
+from news.views import (
+    home, search, ArticleCreateView, NewsCreateView,
+    ArticleUpdateView, NewsUpdateView, ArticleDeleteView, NewsDeleteView, PostListView)
 
 urlpatterns = [
     path('', home),
     path('admin/', admin.site.urls),
-    path('news/', include('news.urls')),
+    path('news/', include('news.urls', namespace='news'), name='news_list'),
+    path('articles/create/', ArticleCreateView.as_view(), name='article_create'),
+    path('news/create/', NewsCreateView.as_view(), name='news_create'),
+    path('articles/<int:pk>/edit', ArticleUpdateView.as_view(), name='article_edit'),
+    path('news/<int:pk>/edit', NewsUpdateView.as_view(), name='news_edit'),
+    path('articles/<int:pk>/delete/', ArticleDeleteView.as_view(), name='article_delete'),
+    path('news/<int:pk>/delete/', NewsDeleteView.as_view(), name='news_delete'),
+
+
+
+
 ]
