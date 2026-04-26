@@ -11,6 +11,18 @@ class PostForm(forms.ModelForm):
             'categories',
             'text',
         ]
+        labels = {
+            'author': 'Автор (выберите из списка):',
+            'title': 'Название публикации:',
+            'categories': 'Категория:',
+            'text': 'Текст публикации:',
+        }
+        widgets = {
+            'author': forms.Select(attrs={'class': 'form_control'}),
+            'title': forms.TextInput(attrs={'size': 40}),
+            'category': forms.Select(attrs={'class': 'form_control', 'size': 1}),
+            'text': forms.Textarea(attrs={'cols': 100, 'rows': 10}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()

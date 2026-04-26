@@ -57,7 +57,7 @@ class ArticleCreateView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'flatpages/articles/article_edit.html'
-    success_url = '/news/'
+    success_url = reverse_lazy('news:post_list')
 
     def form_valid(self, form):
         form.instance.post_type = 'AR'
@@ -68,7 +68,7 @@ class ArticleUpdateView(UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'flatpages/articles/article_edit.html'
-    success_url = '/news/'
+    success_url = reverse_lazy('news:post_list')
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -81,7 +81,7 @@ class NewsCreateView(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'flatpages/post_edit.html'
-    success_url = '/news/'
+    success_url = reverse_lazy('news:post_list')
 
     def form_valid(self, form):
         form.instance.post_type = 'NW'

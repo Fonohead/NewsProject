@@ -1,4 +1,3 @@
-# news/filters.py
 import django_filters
 from .models import Post
 from django import forms
@@ -7,14 +6,14 @@ class NewsFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(
         field_name='title',
         lookup_expr='icontains',
-        label='Название новости',
+        label='Название новости:',
         widget=forms.TextInput()
     )
 
     author__user__username = django_filters.CharFilter(
-        field_name='author__user__username',  # ← Обход через связь: News → Author → User
+        field_name='author__user__username',
         lookup_expr='icontains',
-        label='Имя автора',
+        label='Имя автора:',
         widget=forms.TextInput()
     )
 
@@ -36,3 +35,5 @@ class NewsFilter(django_filters.FilterSet):
     class Meta:
         model = Post
         fields = ['title', 'author__user__username', 'created_at__gt']
+
+
