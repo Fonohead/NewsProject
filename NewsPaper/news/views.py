@@ -13,6 +13,7 @@ def home(request):
 def search(request):
     return render(request, 'flatpages/post_search.html')
 
+# Список публикаций
 class PostListView(ListView):
     model = Post
     ordering = '-created_at'
@@ -31,6 +32,7 @@ class PostListView(ListView):
         context['total_posts'] = Post.objects.count()
         return context
 
+# Детальный вид публикации
 class PostDetailView(DetailView):
     model = Post
     template_name = 'flatpages/post_detail.html'
@@ -42,7 +44,7 @@ def news_search(request):
     news_list = Post.objects.all().select_related('author__user')  # ← Оптимизация: загружаем сразу User
     news_filter = NewsFilter(request.GET, queryset=news_list)
 
-    paginator = Paginator(news_filter.qs, 4)
+    paginator = Paginator(news_filter.qs, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

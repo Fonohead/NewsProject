@@ -24,6 +24,10 @@ class PostForm(forms.ModelForm):
             'text': forms.Textarea(attrs={'cols': 100, 'rows': 10}),
         }
 
+    def clean_title(self):
+        data = self.cleaned_data['title']
+        return data.lower()
+
     def clean(self):
         cleaned_data = super().clean()
         text = cleaned_data.get('text')
