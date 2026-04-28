@@ -1,24 +1,27 @@
+from dataclasses import field
+
 import django_filters
 from .models import Post
 from django import forms
 
-
+# Фильтр поиска публикации
 class NewsFilter(django_filters.FilterSet):
     title = django_filters.CharFilter(
-        lookup_expr='icontains',
+        lookup_expr='iregex',
         label='Название новости:',
         widget=forms.TextInput()
     )
 
     author__user__username = django_filters.CharFilter(
-        lookup_expr='icontains',
+        lookup_expr='iregex',
         label='Имя автора:',
         widget=forms.TextInput()
     )
 
-    created_at__gt = django_filters.DateFilter(
+    created_at_gt = django_filters.DateFilter(
+        field_name='created_at__date',
         lookup_expr='gt',
-        label='Опубликованно позже даты:',
+        label='Опубликовано позже даты:',
         widget=forms.DateInput(
             attrs={
                 'type': 'date',
@@ -32,6 +35,6 @@ class NewsFilter(django_filters.FilterSet):
 
     class Meta:
         model = Post
-        fields = ['title', 'author__user__username', 'created_at__gt']
+        fields = ['title', 'author__user__username', 'created_at_gt']
 
 

@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .forms import PostForm
+from .forms import PostForm, PostEditForm
 from .models import Post
 from django.shortcuts import render
 from .filters import NewsFilter
@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.http import Http404
 
 def home(request):
-    return render(request, 'flatpages/main.html',)
+    return render(request, 'flatpages/main.html')
 
 def search(request):
     return render(request, 'flatpages/post_search.html')
@@ -68,7 +68,7 @@ class ArticleCreateView(CreateView):
 # Редактирование статьи
 class ArticleUpdateView(UpdateView):
     model = Post
-    form_class = PostForm
+    form_class = PostEditForm
     template_name = 'flatpages/articles/article_edit.html'
     success_url = reverse_lazy('news:post_list')
 
@@ -92,7 +92,7 @@ class NewsCreateView(CreateView):
 # Редактирование новости
 class NewsUpdateView(UpdateView):
     model = Post
-    form_class = PostForm
+    form_class = PostEditForm
     template_name = 'flatpages/post_edit.html'
     success_url = reverse_lazy('news:post_list')
 
@@ -125,5 +125,6 @@ class NewsDeleteView(DeleteView):
         if obj.post_type != 'NW':
             raise Http404("Это не новость!")
         return obj
+
 
 

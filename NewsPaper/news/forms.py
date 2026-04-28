@@ -26,7 +26,42 @@ class PostForm(forms.ModelForm):
 
     def clean_title(self):
         data = self.cleaned_data['title']
-        return data.lower()
+        return data
+
+    def clean(self):
+        cleaned_data = super().clean()
+        text = cleaned_data.get('text')
+        if text is not None and len(text) < 300:
+            raise ValidationError({'text': 'Объём публикации должен быть не меньше 300 символов!'})
+
+        title = cleaned_data.get('title')
+        if title[0].islower():
+            raise ValidationError('Название должно начинаться с заглавной буквы!')
+
+        return cleaned_data
+
+class PostEditForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            'title',
+            'categories',
+            'text',
+        ]
+        labels = {
+            'title': 'Название публикации:',
+            'categories': 'Категория:',
+            'text': 'Текст публикации:',
+        }
+        widgets = {
+            'title': forms.TextInput(attrs={'size': 40}),
+            'category': forms.Select(attrs={'class': 'form_control', 'size': 1}),
+            'text': forms.Textarea(attrs={'cols': 100, 'rows': 10}),
+        }
+
+    def clean_title(self):
+        data = self.cleaned_data['title']
+        return data
 
     def clean(self):
         cleaned_data = super().clean()
