@@ -23,7 +23,8 @@ from news.views import (
 urlpatterns = [
     path('', home),
     path('admin/', admin.site.urls),
-    path('news/', include('news.urls', namespace='news'), name='news_list'),
+    path('sign/', include('sign.urls')),
+    path('news/', include('news.urls', namespace='news')),
     path('articles/create/', ArticleCreateView.as_view(), name='article_create'),
     path('news/create/', NewsCreateView.as_view(), name='news_create'),
     path('articles/<int:pk>/edit', ArticleUpdateView.as_view(), name='article_edit'),
