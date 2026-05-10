@@ -37,23 +37,31 @@
                    <a class="nav-link" href="/news/search">ПОИСК НОВОСТИ</a>
                </li>
                <li class="nav-item">
-                   <a class="nav-link" href="/sign/login">ВХОД</a>
+                   {% if user.is_authenticated %}
+                   <a class="nav-link" href="{% url 'logout' %}">ВЫХОД</a>
+                   {% else %}
+                   <a class="nav-link" href="{% url 'login' %}">ВХОД</a>
+                   {% endif %}
+
+
                </li>
            </ul>
        </div>
    </div>
 </nav>
+
         <!-- Page content-->
 <div class="container">
     <div class="row">
         <div class="co-lg-12 text-center">
+
         {% block title %}
         {{ flatpages.title }}
         {% endblock title %}
 
         {% block content %}
         <h3>{{ flatpage.title }}</h3>
-        <h2>{{ flatpage.content}}</h2>
+        <h2>{{ flatpage.content }}</h2>
         {% endblock content %}
         </div>
     </div>
