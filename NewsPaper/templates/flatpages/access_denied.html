@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+{% block content %}
+<html>
+<head>
+    <title>Доступ запрещён</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div style="max-width: 600px; margin: 50px auto; text-align: center; padding: 20px; font-family: Tahoma, sans-serif;">
+        <h1>Доступ запрещён!</h1>
+        <p>У вас нет прав автора для выполнения этого действия.</p>
+        <form method="post" style="display: inline;" action="{% url 'upgrade' %}">
+        {% csrf_token %}
+          <br>
+        <button type="submit" class="btn btn-secondary" style="margin-top: 4px;">Стать автором!</button>
+      </form>
+    </div>
+</body>
+</html>
+
+{% endblock content %}

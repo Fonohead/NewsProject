@@ -1,0 +1,72 @@
+{% extends "flatpages/default.html" %}
+{% load i18n %}
+
+{% block title %}
+<!-- Пустой блок -->
+{% endblock title %}
+
+{% block content %}
+<div class="row justify-content-center text-start mt-5">
+    <!-- Ограничиваем ширину формы до 5 колонок из 12 (как в форме входа),
+         чтобы поля стали намного короче -->
+    <div class="col-12 col-md-6 col-lg-5">
+
+        <!-- Карточка в едином стиле проекта -->
+        <div class="card shadow-sm p-4 border-0" style="border-radius: 12px; background-color: #f8f9fa;">
+
+            <!-- Фирменный зеленый заголовок в верхнем регистре -->
+            <h2 class="fw-bold mb-4 text-success text-uppercase" style="font-size: 1.5rem; letter-spacing: 0.5px;">
+                Редактировать профиль
+            </h2>
+
+            <!-- Форма отправки данных -->
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-3">
+                        <!-- Название поля -->
+                        <label for="{{ field.id_for_label }}" class="form-label fw-semibold text-secondary small mb-1">
+                            {{ field.label }}
+                        </label>
+
+                        <!-- Рендеринг инпута с классами Bootstrap -->
+                        <input type="{{ field.field.widget.input_type|default:'text' }}"
+                               name="{{ field.html_name }}"
+                               id="{{ field.id_for_label }}"
+                               class="form-control"
+                               value="{{ field.value|default:'' }}"
+                               {% if field.field.required %}required{% endif %}
+                               {% if field.name == 'username' %}disabled style="background-color: #e9ecef; opacity: 0.8;"{% endif %}>
+
+                        <!-- Вывод текста-подсказки (например, для Username), если он есть -->
+                        {% if field.help_text %}
+                            <div class="form-text text-muted" style="font-size: 0.75rem; line-height: 1.2;">
+                                {{ field.help_text }}
+                            </div>
+                        {% endif %}
+
+                        <!-- Вывод ошибок под полем -->
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <!-- Кнопки управления в одну строку, прижаты влево -->
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-primary px-4 fw-semibold" type="submit">
+                        Сохранить изменения
+                    </button>
+                    <a href="#" onclick="history.back(); return false;" class="btn btn-outline-secondary px-4 fw-semibold">
+                        Отмена
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

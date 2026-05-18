@@ -2,13 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Author(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name='author'
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author')
     rating = models.IntegerField(default=0)
 
+    # Подсчёт рейтинга автора.
     def update_rating(self):
         post_score = sum(p.rating for p in self.post_set.all()) * 3
         own_comment_score = sum(c.rating for c in self.user.comments.all())
@@ -18,4 +15,7 @@ class Author(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+
 

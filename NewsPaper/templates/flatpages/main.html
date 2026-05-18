@@ -1,15 +1,26 @@
 {% extends 'flatpages/default.html' %}
 
 {% load custom_tags %}
+{% load custom_filters %}
 
 {% block content %}
-<div style="text-align: right; color: brown; font-size: 14px; font-weight: bold; font-family: tahoma;">
+<div style="text-align: right; color: brown; font-size: 12px; font-weight: bold; font-family: tahoma;">
     СЕГОДНЯ {% current_time %}
 </div>
 <div style="text-align: left; color: grey; font-size: 12px; font-weight: bold;">
-    {% if user.is_authenticated %}
-    Вы вошли как: <strong>{{ user.username }}</strong>
+  {% if user.is_authenticated %}
+    Вы вошли как: <strong>{{ user.username }}</strong> | <a href="/profile/edit/">Редактировать профиль</a>
+
+    {% if user_has_authors_group %}
+      <div class="alert alert-success" style="margin-top: 6px;">Вы являетесь автором!</div>
+    {% else %}
+      <form method="post" style="display: inline;" action="{% url 'upgrade' %}">
+        {% csrf_token %}
+          <br>
+        <button type="submit" class="btn btn-secondary" style="margin-top: 4px;">Стать автором!</button>
+      </form>
     {% endif %}
+  {% endif %}
 </div>
 <hr>
 <div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">

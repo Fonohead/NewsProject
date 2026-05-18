@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+# Фильтр слов
 forbidden_words = ['бармаглот', 'бармаглота', 'шорьки', 'концерт']
 
 @register.filter()
@@ -32,4 +33,7 @@ def censor(text):
             result.append(word)
 
     return " ".join(result)
+
+
+
 

@@ -5,12 +5,12 @@
 
 {% block content %}
 
-<div style="text-align: right; color: brown; font-size: 14px; font-weight: bold; font-family: tahoma;">
+<div style="text-align: right; color: brown; font-size: 12px; font-weight: bold; font-family: tahoma;">
     СЕГОДНЯ {% current_time %}
 </div>
 <div style="text-align: left; color: grey; font-size: 12px; font-weight: bold;">
     {% if user.is_authenticated %}
-    Вы вошли как: <strong>{{ user.username }}</strong>
+    Вы вошли как: <strong>{{ user.username }}</strong> | <a href="/profile/edit/">Редактировать профиль</a>
     {% endif %}
 </div>
 <hr>
@@ -31,6 +31,8 @@
                     {{ post.title|censor }}</div>
                 <div style="text-align: left; font-size: 20px;color: grey; font-weight: bold;">
                     {{ post.created_at|date:"d. m. Y." }}</div>
+                <div style="text-align: left; font-size: 14px;color: green; font-weight: bold;">
+                    Автор: {{ post.author.user.username }}</div>
                 <div style="text-align: left; font-size: 14px;">
                     {{ post.text|censor|truncatechars:20 }}</div>
             </div>
@@ -41,6 +43,8 @@
 <h2>Новостей нет!</h2>
 {% endif %}
 
+
+<!-- Пагинация -->
 <div style="color: grey; text-align: center; margin: 30px 0;">
   {% if page_obj.has_previous %}
     <a href="?{% url_replace page=1 %}" style="color: brown;">1</a>

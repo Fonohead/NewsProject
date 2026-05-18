@@ -20,10 +20,13 @@ from news.views import (
     home, search, ArticleCreateView, NewsCreateView,
     ArticleUpdateView, NewsUpdateView, ArticleDeleteView, NewsDeleteView, PostListView)
 
+
+
 urlpatterns = [
-    path('', home),
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('sign/', include('sign.urls')),
+    path('accounts/', include('allauth.urls')),
     path('news/', include('news.urls', namespace='news')),
     path('articles/create/', ArticleCreateView.as_view(), name='article_create'),
     path('news/create/', NewsCreateView.as_view(), name='news_create'),
@@ -31,8 +34,6 @@ urlpatterns = [
     path('news/<int:pk>/edit', NewsUpdateView.as_view(), name='news_edit'),
     path('articles/<int:pk>/delete/', ArticleDeleteView.as_view(), name='article_delete'),
     path('news/<int:pk>/delete/', NewsDeleteView.as_view(), name='news_delete'),
-
-
-
+    path('profile/', include('accounts.urls')),
 
 ]

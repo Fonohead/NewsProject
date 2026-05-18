@@ -6,14 +6,29 @@
   <component name="ChangeListManager">
     <list default="true" id="3d03e7a1-79e6-49a1-be2e-c36f49c54036" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/NewsPaper/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/NewsPaper/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/NewsPaper/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/accounts/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/accounts/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/accounts/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/accounts/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/news/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/news/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/news/templatetags/custom_filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/news/templatetags/custom_filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/news/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/news/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/news/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/news/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/sign/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/sign/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/sign/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/sign/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/sign/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/sign/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/articles/article_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/articles/article_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/default.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/default.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/post_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/post_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/post_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/post_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/post_search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/posts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/sign/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/sign/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewsPaper/templates/flatpages/sign/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewsPaper/templates/flatpages/sign/signup.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +38,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>

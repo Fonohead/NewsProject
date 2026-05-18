@@ -4,8 +4,13 @@
 {% load custom_tags %}
 
 {% block content %}
-<div style="text-align: right; color: brown; font-size: 14px; font-weight: bold; font-family: tahoma;">
+<div style="text-align: right; color: brown; font-size: 12px; font-weight: bold; font-family: tahoma;">
     СЕГОДНЯ {% current_time %}
+</div>
+<div style="text-align: left; color: grey; font-size: 12px; font-weight: bold;">
+    {% if user.is_authenticated %}
+    Вы вошли как: <strong>{{ user.username }}</strong> | <a href="/profile/edit/">Редактировать профиль</a>
+    {% endif %}
 </div>
 <hr>
     <div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">

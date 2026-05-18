@@ -1,16 +1,78 @@
 {% extends 'flatpages/default.html' %}
 
 {% block content %}
-<br>
-<div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
-        ПУБЛИКАЦИЯ СТАТЬИ
-</div>
-<hr>
-<form action="" method="post" style="text-align: left;">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-    <a href="{% url 'news:post_list' %}" class="btn btn-secondary">Отмена</a>
-</form>
+<div class="d-flex justify-content-center align-items-center"
+     style="min-height: 70vh; background-color: #f8f9fa;">
+    <div class="card p-5 border-0 text-start"
+         style="width: 100%; max-width: 550px; border-radius: 16px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);">
 
+        <h2 class="mb-4 text-start"
+            style="color: #0f7643; font-weight: 700; font-family: Tahoma;
+            font-size: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Публикация статьи
+        </h2>
+
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="mb-4 text-start">
+                    <!-- Метка поля (серая, уменьшенная) -->
+                    <label for="{{ field.id_for_label }}" class="form-label d-block mb-2 text-start"
+                           style="color: #6c757d; font-size: 14px; font-weight: 500;">
+                        {{ field.label }}
+                    </label>
+
+                    <div class="custom-form-field">
+                        {{ field }}
+                    </div>
+
+                    <!-- Вывод ошибок -->
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1 text-start">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <!-- Кнопки управления -->
+            <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn px-4 py-2 text-white border-0"
+                        style="background-color: #0066ff; font-weight: 600; border-radius: 8px; font-size: 15px;">
+                    Сохранить
+                </button>
+                <a href="{% url 'news:post_list' %}" class="btn px-4 py-2 text-white border-0"
+                   style="background-color: #6c757d; font-weight: 600; border-radius: 8px; font-size: 15px;">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .custom-form-field input,
+    .custom-form-field select,
+    .custom-form-field textarea {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 15px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background-color: #edf2f9; /* Светло-голубой оттенок как на макете */
+        color: #333333;
+        transition: all 0.2s ease-in-out;
+        box-sizing: border-box;
+    }
+    .custom-form-field input:focus,
+    .custom-form-field select:focus,
+    .custom-form-field textarea:focus {
+        background-color: #ffffff;
+        border-color: #0066ff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+    }
+</style>
 {% endblock content %}

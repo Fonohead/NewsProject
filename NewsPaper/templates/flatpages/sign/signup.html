@@ -1,14 +1,58 @@
 {% extends "flatpages/default.html" %}
+{% load i18n %}
+
+{% block title %}
+{% endblock title %}
 
 {% block content %}
-<h2> Регистрация </h2>
-<form method="post">
-{% csrf_token %}
-    {% for field in form %}
-    <p>
-    {{ field.label_tag }}<br>
-    {{ field }}
-    {% endfor %}
-<input type="submit" value="Продолжить">
-</form>
-{% endblock %}
+<div class="row justify-content-center text-start mt-5">
+    <div class="col-12 col-md-6 col-lg-5">
+        <div class="card shadow-sm p-4 border-0" style="border-radius: 12px; background-color: #f8f9fa;">
+
+            <h2 class="fw-bold mb-4 text-success text-uppercase" style="font-size: 20px;">
+                Регистрация
+            </h2>
+
+            <!-- Форма отправки данных -->
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-3">
+                        <!-- Названия полей -->
+                        <label for="{{ field.id_for_label }}" class="form-label fw-semibold text-secondary small">
+                            {{ field.label }}
+                        </label>
+
+                        <!-- Поля ввода -->
+                        <input type="{{ field.field.widget.input_type|default:'text' }}"
+                               name="{{ field.html_name }}"
+                               id="{{ field.id_for_label }}"
+                               class="form-control"
+                               value="{{ field.value|default:'' }}"
+                               {% if field.field.required %}required{% endif %}>
+
+                        <!-- Вывод ошибок  -->
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <!-- Кнопки управления  -->
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-primary px-4 fw-semibold" type="submit">
+                        Продолжить
+                    </button>
+                    <a href="#" onclick="history.back(); return false;" class="btn btn-outline-secondary px-4 fw-semibold">
+                        Отмена
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
