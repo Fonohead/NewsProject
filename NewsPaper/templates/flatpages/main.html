@@ -4,20 +4,56 @@
 {% load custom_filters %}
 
 {% block content %}
+<style>
+    /* Cтили для ссылки */
+    .my-category-link {
+        color: gray;
+        text-decoration: none;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+    .my-category-link:hover {
+        color: lightblue;
+        text-decoration: none;
+    }
+
+        .my-action-link {
+        color: green;
+        text-decoration: none;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+    .my-action-link:hover {
+        color: brown;
+        text-decoration: none;
+    }
+</style>
+
+<br>
+<div style="text-align: left; color: green; font-size: 14px; font-weight: normal; font-family: Tahoma;">
+<a href="{% url 'news:post_politics' category_id=1 %}" class="my-category-link">ПОЛИТИКА</a> |
+    <a href="{% url 'news:post_culture' category_id=3 %}" class="my-category-link">КУЛЬТУРА</a> |
+    <a href="{% url 'news:post_sport' category_id=2 %}" class="my-category-link">СПОРТ</a> |
+    <a href="{% url 'news:post_humour' category_id=4 %}" class="my-category-link">ЮМОР</a> |
+</div>
+<br>
 <div style="text-align: right; color: brown; font-size: 12px; font-weight: bold; font-family: tahoma;">
     СЕГОДНЯ {% current_time %}
 </div>
-<div style="text-align: left; color: grey; font-size: 12px; font-weight: bold;">
+<div style="text-align: right; color: grey; font-size: 12px; font-weight: bold;">
   {% if user.is_authenticated %}
-    Вы вошли как: <strong>{{ user.username }}</strong> | <a href="/profile/edit/">Редактировать профиль</a>
+    Вы вошли как: <strong>{{ user.username }}</strong> |
+    <a href="/profile/edit/" class="my-action-link">Редактировать профиль</a>
 
     {% if user_has_authors_group %}
-      <div class="alert alert-success" style="margin-top: 6px;">Вы являетесь автором!</div>
+      <div style="margin-top: 6px; color: grey;">Вы являетесь автором!</div>
+    <a href="/news/create/" class="my-action-link">+ Опубликовать новость</a>
+    <br>
+    <a href="/articles/create/" class="my-action-link">+ Опубликовать статью</a>
     {% else %}
       <form method="post" style="display: inline;" action="{% url 'upgrade' %}">
         {% csrf_token %}
           <br>
-        <button type="submit" class="btn btn-secondary" style="margin-top: 4px;">Стать автором!</button>
+        <button type="submit" class="btn" style="margin-top: 4px; background-color: #ff5722;
+        color: white; font-size: 12px; padding: 6px 14px; border: none;">Стать автором!</button>
       </form>
     {% endif %}
   {% endif %}

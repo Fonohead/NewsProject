@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333333;
+        background-color: #f9f9f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff;
+        padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; text-align: center; }
+        h2 { color: #3498db; margin-bottom: 20px; }
+        .category-badge { display: inline-block; background-color: #2ecc71; color: #ffffff;
+        padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 16px; margin: 10px 0; }
+        .btn { display: inline-block; padding: 12px 24px; color: #ffffff !important;
+        background-color: #3498db; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 20px; }
+        .footer { margin-top: 30px; font-size: 11px; color: #95a5a6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Вы успешно подписались!</h2>
+        <p>Здравствуйте, <strong>{{ username }}</strong>!</p>
+        <p>Теперь вы будете получать свежие публикации и еженедельные дайджесты из категории:</p>
+
+        <div class="category-badge">{{ category_name }}</div>
+
+
+        <p><a href="{{ site_url }}/news/" class="btn">Перейти к новостям</a></p>
+
+        </div>
+    </div>
+</body>
+</html>

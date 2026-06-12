@@ -57,45 +57,50 @@
         color: white; font-size: 12px; padding: 6px 14px; border: none;">Стать автором!</button>
       </form>
     {% endif %}
+    {% if user_has_sub_culture_group %}
+        <div style="margin-top: 6px; color: grey;">Вы подписаны на раздел Культура!</div>
+    {% else %}
+    <form method="post" style="display: inline;" action="{% url 'sub_culture' %}">
+        {% csrf_token %}
+          <br>
+        <button type="submit" class="btn" style="margin-top: 4px; background-color: #ff5722;
+        color: white; font-size: 12px; padding: 6px 14px; border: none;">Подписаться на раздел Культура!</button>
+      </form>
+    {% endif %}
   {% endif %}
 </div>
 <hr>
 <div style="text-align: left; color: green; font-size: 20px; font-weight: bold;">
-        ПОИСК НОВОСТИ
+        КУЛЬТУРА
 </div>
 <hr>
-<div style="text-align: left; color: grey; font-size: 16px; font-weight: bold; font-family: tahoma;">
-    Введите критерии поиска</div>
-    <br>
-    <form method="get" style="text-align: left; color: grey; font-family: tahoma;">
-        {{ filter.form.as_p }}
-        <button type="submit" class="btn btn-primary">Поиск</button>
-        <a href="{% url 'news:news_search' %}" class="btn btn-secondary">Сбросить</a>
-    </form>
-    <hr>
-    {% if filter.qs %}
-        <div style="text-align: right; color: green; font-size: 12px; font-weight: normal; font-family: tahoma;">
-            Публикаций: {{ filter.qs.count }}</div>
-            <br>
-            {% for news in page_obj %}
-            <li style="margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #eeeeee;">
+<div style="text-align: right; color: green; font-size: 12px; font-weight: normal; font-family: tahoma;">
+        Количество публикаций: {{ total_posts }}
+</div>
+<br>
+{% if posts %}
+<ol style="list-style-type: none; padding: 0; margin: 0;">
+    {% for post in posts %}
+        <li style="margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #eeeeee;">
             <div style="text-align: left; color: grey; font-family: tahoma; font-size: 16px;">
                 <div style="text-align: left; font-size: 16px;color: brown; font-weight: bold;">
-                    {{ news.title|censor }}</div>
-                <div style="text-align: left; font-size: 14px;color: green; font-weight: bold;">
-                    Автор: {{ news.author.user.username }}</div>
+                    {{ post.title|censor }}</div>
                 <div style="text-align: left; font-size: 20px;color: grey; font-weight: bold;">
-                    {{ news.created_at|date:"d.m.Y" }}</div>
+                    {{ post.created_at|date:"d. m. Y." }}</div>
+                <div style="text-align: left; font-size: 14px;color: green; font-weight: bold;">
+                    Автор: {{ post.author.user.username }}</div>
                 <div style="text-align: left; font-size: 14px;">
-                    {{ news.text|censor|truncatechars:20 }}</div>
+                    {{ post.text|censor|truncatechars:20 }}</div>
             </div>
         </li>
-            {% endfor %}
-    {% elif request.GET %}
-        <div style="text-align: left; color: orange; font-family: tahoma; font-weight: bold; font-size: 16px;">
-            К сожалению, по вашему запросу ничего не найдено...</div>
-    {% endif %}
+    {% endfor %}
+</ol>
+{% else %}
+<h2>Новостей нет!</h2>
+{% endif %}
 
+
+<!-- Пагинация -->
 <div style="color: grey; text-align: center; margin: 30px 0;">
   {% if page_obj.has_previous %}
     <a href="?{% url_replace page=1 %}" style="color: brown;">1</a>
@@ -116,7 +121,6 @@
     {% endif %}
   {% endif %}
 </div>
-
 
 
 {% endblock content %}

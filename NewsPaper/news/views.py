@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import PostForm, PostEditForm
-from .models import Post
-from django.shortcuts import render, redirect
+from .models import Post, Category
+from django.shortcuts import render, redirect, get_object_or_404
 from .filters import NewsFilter
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
@@ -34,6 +34,104 @@ class PostListView(ListView):
         context['filterset'] = self.filterset
         context['total_posts'] = Post.objects.count()
         return context
+
+# Список публикаций Политика
+
+class PoliticsListView(PostListView):
+    template_name = 'flatpages/posts_politics.html'
+
+    def get_queryset(self):
+        # 1. Получаем ID из URL-пути
+        category_id = self.kwargs.get('category_id')
+        # 2. Проверяем существование категории
+        category = get_object_or_404(Category, id=category_id)
+        # 3. Фильтруем базовый queryset модели Post
+        queryset = Post.objects.filter(categories=category).order_by('-created_at')
+
+        # 4. Применяем фильтрацию NewsFilter поверх выбранной категории
+        self.filterset = NewsFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        # 1. Сначала вызываем базовый контекст родительского класса
+        context = super().get_context_data(**kwargs)
+
+        # 2. Снова безопасно берем category_id из URL конкретно для контекста
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+
+        # 3. Передаем точное количество публикаций текущей категории (с учетом фильтров)
+        context['total_posts'] = self.get_queryset().count()
+
+        # 4. Передаем объект категории для вывода её названия в HTML
+        context['current_category'] = category
+
+        return context
+
+# Список публикаций Культура
+
+class CultureListView(PostListView):
+    template_name = 'flatpages/posts_culture.html'
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+        queryset = Post.objects.filter(categories=category).order_by('-created_at')
+        self.filterset = NewsFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+        context['total_posts'] = self.get_queryset().count()
+        context['current_category'] = category
+
+        return context
+
+# Список публикаций Спорт
+
+class SportListView(PostListView):
+    template_name = 'flatpages/posts_sport.html'
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+        queryset = Post.objects.filter(categories=category).order_by('-created_at')
+        self.filterset = NewsFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+        context['total_posts'] = self.get_queryset().count()
+        context['current_category'] = category
+
+        return context
+
+# Список публикаций Юмор
+
+class HumourListView(PostListView):
+    template_name = 'flatpages/posts_humour.html'
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+        queryset = Post.objects.filter(categories=category).order_by('-created_at')
+        self.filterset = NewsFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
+        context['total_posts'] = self.get_queryset().count()
+        context['current_category'] = category
+
+        return context
+
+
 
 # Детальный вид публикации
 class PostDetailView(DetailView):
