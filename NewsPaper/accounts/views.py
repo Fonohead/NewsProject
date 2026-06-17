@@ -3,14 +3,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import ProfileUpdateForm
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from .models import Author
 from django.contrib.auth.models import User, Group
-from django.core.mail import send_mail, EmailMultiAlternatives
-from django.conf import settings
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.conf import settings
+from news.models import Category
 
 # Редактирование профиля автора
 User = get_user_model()
@@ -39,78 +40,37 @@ def upgrade_me(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-# Функция для отправки HTML-письма
-def send_welcome_html_mail(user, category_name):
-    subject = f"Успешная подписка на категорию '{category_name}'"
-
-    context = {
-        'username': user.username,
-        'category_name': category_name,
-        'site_url': settings.SITE_URL,
-    }
-
-    # Рендерим HTML-шаблон и создаем чистый текст для старых клиентов
-    html_content = render_to_string('emails/welcome_subscription.html', context)
-    text_content = strip_tags(html_content)
-
-    msg = EmailMultiAlternatives(
-        subject=subject,
-        body=text_content,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[user.email]
-    )
-    msg.attach_alternative(html_content, "text/html")
-    msg.send(fail_silently=True)
-
-
-# Подписка на Политика
+# Функция подписки на любую категорию публикаций
 @login_required
-def subscribe_politics(request):
+def toggle_subscription(request, pk):
     if request.method == 'POST':
+        category = get_object_or_404(Category, pk=pk)
         user = request.user
-        politics_group = Group.objects.get(name='sub_politics')
-        if not user.groups.filter(name='sub_politics').exists():
-            politics_group.user_set.add(user)
-            send_welcome_html_mail(user, 'Политика')
 
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+        # Если пользователь уже подписан — отписываем, если нет — подписываем
+        if category.subscribers.filter(id=user.id).exists():
+            category.subscribers.remove(user)
+        else:
+            category.subscribers.add(user)
 
+            # Отправка приветственного HTML-письма
+            subject = f"Успешная подписка на категорию '{category.name}'"
+            context = {
+                'username': user.username,
+                'category_name': category.name,
+                'site_url': settings.SITE_URL,
+            }
+            html_content = render_to_string('emails/welcome_subscription.html', context)
+            text_content = strip_tags(html_content)
 
-# Подписка на Культура
-@login_required
-def subscribe_culture(request):
-    if request.method == 'POST':
-        user = request.user
-        culture_group = Group.objects.get(name='sub_culture')
-        if not user.groups.filter(name='sub_culture').exists():
-            culture_group.user_set.add(user)
-            send_welcome_html_mail(user, 'Культура')
-
-    return redirect(request.META.get('HTTP_REFERER', '/'))
-
-
-# Подписка на Спорт
-@login_required
-def subscribe_sport(request):
-    if request.method == 'POST':
-        user = request.user
-        sport_group = Group.objects.get(name='sub_sport')
-        if not user.groups.filter(name='sub_sport').exists():
-            sport_group.user_set.add(user)
-            send_welcome_html_mail(user, 'Спорт')
-
-    return redirect(request.META.get('HTTP_REFERER', '/'))
-
-
-# Подписка на Юмор
-@login_required
-def subscribe_humour(request):
-    if request.method == 'POST':
-        user = request.user
-        humour_group = Group.objects.get(name='sub_humour')
-        if not user.groups.filter(name='sub_humour').exists():
-            humour_group.user_set.add(user)
-            send_welcome_html_mail(user, 'Юмор')
+            msg = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[user.email]
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send(fail_silently=True)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 

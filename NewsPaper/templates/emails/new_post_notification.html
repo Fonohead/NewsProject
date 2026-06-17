@@ -17,9 +17,9 @@
 </head>
 <body>
     <div class="container">
+        <h1>Здравствуй, {{ username }}!</h1>
         <h2>Новая публикация в категории «{{ category_name }}»</h2>
-        <p>Здравствуйте!</p>
-        <p>На нашем портале опубликована новая статья: <strong>{{ post_title }}</strong>.</p>
+        <p>Новая статья в твоём любимом разделе! <strong>{{ post_title }}</strong>.</p>
         <div style="font-size: 13px; color: #7f8c8d; margin-bottom: 10px;">
             Дата публикации: {{ created_at|date:"d E Y в H:i" }}
         </div>

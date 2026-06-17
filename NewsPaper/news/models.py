@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError  # Добавьте в самый верх файла
+from django.utils import timezone  # Добавьте в самый верх файла
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import Author
@@ -5,6 +8,7 @@ from accounts.models import Author
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    subscribers = models.ManyToManyField(User, related_query_name='categories', blank=True)
 
     def __str__(self):
         return self.name

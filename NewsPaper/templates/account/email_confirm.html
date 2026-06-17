@@ -1,0 +1,44 @@
+{% extends "flatpages/default.html" %}
+{% load i18n %}
+{% load account %}
+
+{% block content %}
+<div class="row justify-content-center text-start mt-5">
+    <div class="col-12 col-md-6 col-lg-5">
+
+        <div class="card shadow-sm p-4 border-0" style="border-radius: 12px; background-color: #f8f9fa;">
+
+            <h2 class="fw-bold mb-3 text-dark">Подтверждение email</h2>
+
+            {% if confirmation %}
+                {% user_display confirmation.email_address.user as user_display %}
+
+                <p class="text-secondary small mb-4">
+                    {% blocktrans with email=confirmation.email_address.email user=user_display %}
+                    Пожалуйста, подтвердите, что адрес <a href="mailto:{{ email }}" class="text-primary
+                    text-decoration-none fw-semibold">{{ email }}</a> принадлежит пользователю <strong>{{ user_display }}</strong>.
+                    {% endblocktrans %}
+                </p>
+
+                <!-- Форма подтверждения -->
+                <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                    {% csrf_token %}
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-primary px-4 fw-semibold" type="submit">
+                            Подтвердить
+                        </button>
+                    </div>
+                </form>
+            {% else %}
+                <p class="text-secondary small mb-4">
+                    {% blocktrans %}Эта ссылка для подтверждения электронной почты недействительна или её срок
+                    действия истёк.{% endblocktrans %}
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

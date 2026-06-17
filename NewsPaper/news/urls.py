@@ -20,5 +20,6 @@ urlpatterns = [
     path('culture/<int:category_id>/', CultureListView.as_view(), name='post_culture'),
     path('sport/<int:category_id>/', SportListView.as_view(), name='post_sport'),
     path('humour/<int:category_id>/', HumourListView.as_view(), name='post_humour'),
+    path('subscribe/<int:pk>/', views.toggle_subscription, name='toggle_subscription'),
 
 ]

@@ -15,6 +15,16 @@
         <form action="" method="post">
             {% csrf_token %}
 
+            {% if form.non_field_errors %}
+                <div style="background-color: #f8d7da; color: #721c24; padding: 15px;
+                border-radius: 8px; margin-bottom: 20px; font-weight: bold; border: 1px solid #f5c6cb;
+                font-family: sans-serif;">
+            {% for error in form.non_field_errors %}
+                <p style="margin: 0;">⚠️ {{ error }}</p>
+            {% endfor %}
+                </div>
+            {% endif %}
+
             {% for field in form %}
                 <div class="mb-4 text-start">
                     <!-- Метка поля (серая, уменьшенная) -->

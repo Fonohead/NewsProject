@@ -17,6 +17,7 @@
 </head>
 <body>
     <div class="container">
+        <h1>Здравствуй, {{ username }}!</h1>
         <h2>Главное за неделю в категории «{{ category_name }}»</h2>
         <p>Новые публикации за последние 7 дней:</p>
 
@@ -26,7 +27,7 @@
             <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;">
                 Опубликовано: {{ post.created_at|date:"d E Y" }} в {{ post.created_at|date:"H:i" }}
             </div>
-            <div class="post-preview">«{{ post.preview }}»</div>
+            <div class="post-preview">«{{ post.text|truncatechars:50 }}»</div>
             <a href="{{ post.full_url }}" class="link">Читать полностью →</a>
         </div>
         {% endfor %}

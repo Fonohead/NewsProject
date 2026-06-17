@@ -1,14 +1,18 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import PostForm, PostEditForm
 from .models import Post, Category
-from django.shortcuts import render, redirect, get_object_or_404
 from .filters import NewsFilter
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.http import Http404
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
+from django.core.exceptions import ValidationError
 
 def home(request):
     return render(request, 'flatpages/main.html')
@@ -158,19 +162,22 @@ def news_search(request):
 # Форма создания статьи
 class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_post',)
-    raise_exception = False
     model = Post
     form_class = PostForm
     template_name = 'flatpages/articles/article_edit.html'
     success_url = reverse_lazy('news:post_list')
 
-    def handle_no_permission(self):
-        return redirect('news:access_denied')
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['initial'] = {'request': self.request}  # Передаем объект запроса в форму
+        return kwargs
+
 
     def form_valid(self, form):
         form.instance.author = self.request.user.author
         form.instance.post_type = 'AR'
         return super().form_valid(form)
+
 
 # Редактирование статьи
 class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
@@ -206,19 +213,22 @@ class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
 # Форма создания новости
 class NewsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_post',)
-    raise_exception = False
     model = Post
     form_class = PostForm
-    template_name = 'flatpages/post_edit.html'
+    template_name = 'flatpages/post_edit.html'  # ваш шаблон для новостей
     success_url = reverse_lazy('news:post_list')
 
-    def handle_no_permission(self):
-        return redirect('news:access_denied')
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['initial'] = {'request': self.request}  # Передаем объект запроса в форму
+        return kwargs
+
 
     def form_valid(self, form):
         form.instance.author = self.request.user.author
         form.instance.post_type = 'NW'
         return super().form_valid(form)
+
 
 # Редактирование новости
 class NewsUpdateView(PermissionRequiredMixin, UpdateView):
@@ -294,6 +304,41 @@ def access_denied(request):
 @login_required
 def editing_denied(request):
     return render(request, 'flatpages/editing_denied.html')
+
+
+# Подписка на любую категорию
+@login_required
+def toggle_subscription(request, pk):
+    if request.method == 'POST':
+        category = get_object_or_404(Category, pk=pk)
+        user = request.user
+
+        # Если пользователя нет в подписчиках, то подписываем
+        if not category.subscribers.filter(id=user.id).exists():
+            category.subscribers.add(user)
+
+            # Отправка приветственного HTML-письма
+            subject = f"Успешная подписка на категорию '{category.name}'"
+            context = {
+                'username': user.username,
+                'category_name': category.name,
+                'site_url': settings.SITE_URL,
+            }
+            html_content = render_to_string('emails/welcome_subscription.html', context)
+            text_content = strip_tags(html_content)
+
+            msg = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[user.email]
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send(fail_silently=True)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
 
 
 

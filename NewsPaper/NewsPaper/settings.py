@@ -41,19 +41,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+
     'accounts',
     'news',
     'django_filters',
     'sign',
+
+    'django_extensions',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'django_apscheduler',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.yandex',
-    'django_extensions',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'django_apscheduler',
+
 
 ]
 
@@ -158,8 +162,9 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
@@ -168,6 +173,8 @@ ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 #EMAIL_HOST_USER = 'fonohead@yandex.ru'
 #EMAIL_HOST_PASSWORD = 'refbmznbxmpyxaqm'
 #EMAIL_USE_SSL = True
+#EMAIL_SUBJECT_PREFIX = ''
+
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
@@ -175,6 +182,7 @@ EMAIL_HOST_USER = '44eduard44@gmail.com'
 EMAIL_HOST_PASSWORD = 'oifbarsmxrtjmbld'
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
+EMAIL_SUBJECT_PREFIX = ''
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER

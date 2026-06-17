@@ -57,16 +57,17 @@
         color: white; font-size: 12px; padding: 6px 14px; border: none;">Стать автором!</button>
       </form>
     {% endif %}
-    {% if user_has_sub_culture_group %}
+    <form method="post" style="display: inline;" action="{% url 'toggle_subscription' current_category.pk %}">
+        {% csrf_token %}
+    {% if request.user in current_category.subscribers.all %}
         <div style="margin-top: 6px; color: grey;">Вы подписаны на раздел Культура!</div>
     {% else %}
-    <form method="post" style="display: inline;" action="{% url 'sub_culture' %}">
-        {% csrf_token %}
-          <br>
+        <br>
         <button type="submit" class="btn" style="margin-top: 4px; background-color: #ff5722;
-        color: white; font-size: 12px; padding: 6px 14px; border: none;">Подписаться на раздел Культура!</button>
-      </form>
+        color: white; font-size: 12px; padding: 6px 14px; border: none;">Подписаться!</button>
     {% endif %}
+    </form>
+
   {% endif %}
 </div>
 <hr>

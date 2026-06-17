@@ -3,32 +3,27 @@ from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.contrib.auth.models import Group
 from django.conf import settings
 from datetime import timedelta
 from news.models import Post, Category
 
 
 class Command(BaseCommand):
-    help = 'Отправляет еженедельный дайджест новых статей подписчикам категорий'
+    help = 'Отправляет еженедельный дайджест новых статей всем подписчикам категорий'
 
     def handle(self, *args, **options):
-        # 1. Вычисляем дату ровно неделю назад
+        # 1. Вычисляем временную метку ровно 7 дней назад
         one_week_ago = timezone.now() - timedelta(days=7)
 
-        CATEGORY_GROUPS = {
-            'Культура': 'sub_culture',
-            'Политика': 'sub_politics',
-            'Спорт': 'sub_sport',
-            'Юмор': 'sub_humour',
-        }
+        # 2. Получаем абсолютно все категории, у которых есть хотя бы один подписчик
+        categories = Category.objects.filter(subscribers__isnull=False).distinct()
 
-        # Перебираем все категории из нашего списка
-        for category_name, group_name in CATEGORY_GROUPS.items():
-            try:
-                category = Category.objects.get(name=category_name)
-            except Category.DoesNotExist:
-                continue
+        if not categories.exists():
+            self.stdout.write(self.style.WARNING("На сайте пока нет категорий с активными подписчиками."))
+            return
+
+        # 3. Проходим циклом по каждой обитаемой категории
+        for category in categories:
 
             # Находим все посты этой категории, созданные за последние 7 дней
             weekly_posts = Post.objects.filter(
@@ -36,45 +31,48 @@ class Command(BaseCommand):
                 created_at__gte=one_week_ago
             ).distinct()
 
-            # Если новых статей в этой категории за неделю нет, пропускаем рассылку
+            # Если за неделю в категории не появилось ни одной статьи, дайджест не отправляем
             if not weekly_posts.exists():
                 continue
 
-            try:
-                group = Group.objects.get(name=group_name)
-                subscribers = group.user_set.filter(is_active=True, email__isnull=False).exclude(email="")
-            except Group.DoesNotExist:
-                continue
+            # Получаем список всех активных пользователей, подписанных на данную категорию
+            subscribers = category.subscribers.filter(is_active=True, email__isnull=False).exclude(email="")
 
             if not subscribers.exists():
                 continue
 
-            # Добавляем для каждого поста полную ссылку (для использования в шаблоне)
+            # Генерируем полные абсолютные URL-адреса для каждого поста
             for post in weekly_posts:
-                post.full_url = f"{settings.SITE_URL}/news/{post.id}/"
+                post_id = str(post.id)
+                post.full_url = f"{settings.SITE_URL}/news/{post_id}/"
 
-            # Контекст для HTML-шаблона
-            context = {
-                'category_name': category_name,
-                'posts': weekly_posts,
-            }
+            # Перебираем подписчиков по одному для персональной отправки
+            for user in subscribers:
+                # Получаем имя (или username, если имя не заполнено)
+                username = user.first_name if user.first_name else user.username
 
-            # Рендерим HTML и создаем текстовую копию писем
-            html_content = render_to_string('emails/weekly_digest.html', context)
-            text_content = strip_tags(html_content)
-            subject = f"Еженедельный дайджест новых публикаций в категории '{category_name}'"
+                # Добавляем имя пользователя в контекст шаблона
+                context = {
+                    'username': username,
+                    'category_name': category.name,
+                    'posts': weekly_posts,
+                }
 
-            # Собираем адреса почты всех подписчиков этой группы
-            recipient_list = [user.email for user in subscribers]
+                # Рендерим шаблон индивидуально для каждого пользователя
+                html_content = render_to_string('emails/weekly_digest.html', context)
+                text_content = strip_tags(html_content)
+                subject = f"Еженедельный дайджест в категории '{category.name}'"
 
-            # Отправляем письмо
-            msg = EmailMultiAlternatives(
-                subject=subject,
-                body=text_content,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=recipient_list
-            )
-            msg.attach_alternative(html_content, "text/html")
-            msg.send(fail_silently=True)
+                # Отправляем конкретному пользователю
+                msg = EmailMultiAlternatives(
+                    subject=subject,
+                    body=text_content,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[user.email]  # Отправка строго одному адресату
+                )
+                msg.attach_alternative(html_content, "text/html")
+                msg.send(fail_silently=True)
 
-            self.stdout.write(self.style.SUCCESS(f"Дайджест по категории '{category_name}' успешно отправлен."))
+            self.stdout.write(self.style.SUCCESS(
+                f"Дайджесты по категории '{category.name}' успешно отправлены ({subscribers.count()} шт.)."))
+
