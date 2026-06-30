@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
 from pathlib import Path
+from celery.schedules import crontab
 
 from django.conf.global_settings import LOGOUT_REDIRECT_URL
 
@@ -215,4 +216,20 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+# Redis external server
+CELERY_BROKER_URL = 'redis://default:pRi5MI3mxXtr38IX1jyfUBzrO3ewnm2G@addition-coast-hour-45546.db.redis.io:13877/0'
+CELERY_RESULT_BACKEND = 'redis://default:pRi5MI3mxXtr38IX1jyfUBzrO3ewnm2G@addition-coast-hour-45546.db.redis.io:13877/0'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# Redis local server
+'''CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'''
+
 
